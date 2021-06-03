@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import Noodle1 from "./Noodle1";
+import { Html, OrbitControls } from "@react-three/drei";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div id="canvas-container" style={{ height: "100vh" }}>
+      <Canvas shadows camera={{ position: [4, 5, 9], fov: 30 }}>
+        <OrbitControls
+          autoRotate
+          autoRotateSpeed={0.5}
+          enableZoom={false}
+          enablePan={false}
+        />
+        <ambientLight intensity={0.1} />
+        <Suspense fallback={<Html>Loading!</Html>}>
+          <Noodle1 />
+        </Suspense>
+      </Canvas>
     </div>
   );
 }
