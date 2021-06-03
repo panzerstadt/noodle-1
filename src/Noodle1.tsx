@@ -43,7 +43,7 @@ const Model = forwardRef((props: JSX.IntrinsicElements["group"], bloomRef) => {
   const disc = useRef<THREE.Mesh>();
   const { nodes, materials } = useGLTF("/noodle1_d.gltf") as GLTFResult;
 
-  const [playTap] = useSound("/press.mp3");
+  const [playTap] = useSound("/tapesound2.mp3");
 
   const [active, setActive] = useState(false);
 
@@ -58,8 +58,13 @@ const Model = forwardRef((props: JSX.IntrinsicElements["group"], bloomRef) => {
   });
 
   const handleTap = () => {
-    setActive((p) => !p);
-    playTap();
+    if (!active) {
+      setActive(true);
+      setTimeout(() => {
+        setActive(false);
+      }, 5500);
+      playTap();
+    }
   };
   // const hingeAxis = new THREE.Vector3(1, 0, 0);
 
