@@ -6,7 +6,7 @@ const Ground = ({ isLowQuality }) => {
   return (
     <Reflector
       receiveShadow
-      resolution={isLowQuality ? 50 : 512}
+      resolution={isLowQuality ? 100 : 512}
       args={[20, 20]}
       mirror={1}
       mixBlur={5}
