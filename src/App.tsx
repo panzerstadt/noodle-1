@@ -2,6 +2,7 @@ import React, { Suspense, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import Noodle1 from "./Noodle1";
 import {
+  AdaptiveDpr,
   Environment,
   Html,
   OrbitControls,
@@ -21,9 +22,16 @@ import {
 } from "@react-three/postprocessing";
 import { Resizer, KernelSize } from "postprocessing";
 
+enum QUALITY {
+  HIGH = "high",
+  LOW = "low",
+}
+
 function App() {
   const mouse = useRef([0, 0]);
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const quality = isMobile ? QUALITY.LOW : QUALITY.HIGH;
+  const isLowQuality = quality === QUALITY.LOW;
 
   const lightRef = useRef();
   const bloomRef = useRef();
@@ -59,21 +67,21 @@ function App() {
             angle={0.1}
             penumbra={1}
             position={[3, 20, 20]}
-            shadow-mapSize-width={1048}
-            shadow-mapSize-height={1048}
-            shadow-camera-far={500}
-            shadow-camera-left={-100}
-            shadow-camera-right={100}
-            shadow-camera-top={100}
-            shadow-camera-bottom={-100}
+            shadow-mapSize-width={isLowQuality ? 100 : 1048}
+            shadow-mapSize-height={isLowQuality ? 100 : 1048}
+            shadow-camera-far={isLowQuality ? 50 : 500}
+            shadow-camera-left={isLowQuality ? -10 : -100}
+            shadow-camera-right={isLowQuality ? 10 : 100}
+            shadow-camera-top={isLowQuality ? 10 : 100}
+            shadow-camera-bottom={isLowQuality ? -10 : -100}
           />
 
           <Suspense fallback={<Html>Loading!</Html>}>
             <Noodle1 ref={bloomRef} />
             <Environment preset="sunset" />
 
-            {!isMobile && <Particles count={3000} mouse={mouse} />}
-            <Ground />
+            {!isLowQuality && <Particles count={3000} mouse={mouse} />}
+            <Ground isLowQuality={isLowQuality} />
 
             <EffectComposer>
               <DepthOfField
@@ -87,7 +95,7 @@ function App() {
               <SelectiveBloom
                 lights={[lightRef]} // ⚠️ REQUIRED! all relevant lights
                 selection={[bloomRef]} // selection of objects that will have bloom effect
-                selectionLayer={5} // selection layer
+                selectionLayer={8} // selection layer
                 intensity={2.0} // The bloom intensity.
                 blurPass={undefined} // A blur pass.
                 width={Resizer.AUTO_SIZE} // render width
@@ -106,6 +114,7 @@ function App() {
             near={8}
             far={23}
           />
+          <AdaptiveDpr pixelated />
         </Canvas>
       </div>
     </div>

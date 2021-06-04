@@ -1,12 +1,12 @@
 import React from "react";
 import { Reflector, useTexture } from "@react-three/drei";
 
-const Ground = () => {
+const Ground = ({ isLowQuality }) => {
   const [floor] = useTexture(["wall_reflection.jpg"]);
   return (
     <Reflector
       receiveShadow
-      resolution={512}
+      resolution={isLowQuality ? 50 : 512}
       args={[20, 20]}
       mirror={1}
       mixBlur={5}
