@@ -84,12 +84,14 @@ function App() {
             <Ground isLowQuality={isLowQuality} />
 
             <EffectComposer>
-              <DepthOfField
-                focusDistance={0}
-                focalLength={0.025}
-                bokehScale={5}
-                height={800}
-              />
+              {!isLowQuality && (
+                <DepthOfField
+                  focusDistance={0}
+                  focalLength={0.025}
+                  bokehScale={5}
+                  height={800}
+                />
+              )}
               <Noise opacity={0.015} />
               <Vignette eskil={false} offset={0.1} darkness={0.8} />
               <SelectiveBloom
