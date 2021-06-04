@@ -72,7 +72,7 @@ function App() {
             <Noodle1 ref={bloomRef} />
             <Environment preset="sunset" />
 
-            <Particles count={isMobile ? 500 : 3000} mouse={mouse} />
+            {!isMobile && <Particles count={3000} mouse={mouse} />}
             <Ground />
 
             <EffectComposer>

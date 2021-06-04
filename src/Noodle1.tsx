@@ -75,7 +75,7 @@ const Model = forwardRef((props: JSX.IntrinsicElements["group"], bloomRef) => {
     <group ref={group} {...props} position={[0, 0, 0]} dispose={null}>
       <animated.mesh
         ref={redSwitch}
-        onClick={() => handleTap()}
+        onPointerDown={() => handleTap()}
         castShadow
         receiveShadow
         geometry={nodes.red_switch.geometry}
